@@ -14,7 +14,7 @@ def main():
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "lxml")
 
-    for row in soup.find("div", {"class": "grant_list_outer"}).find_all("div", {"class": "wrapper_div"}):
+    for row in soup.find("div", {"class": "grant_list_outer"}).find_all("div", {"class": "wrapper_div"})[1:]:
         organization = row.find("div", {"class": "grant_bdy_organization"}).text
         location = row.find("div", {"class": "grant_bdy_location"}).text
         description = row.find("div", {"class": "grant_bdy_description"}).text
