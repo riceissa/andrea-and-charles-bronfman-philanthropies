@@ -2,6 +2,7 @@
 
 import csv
 import sys
+import re
 
 
 def main():
@@ -11,6 +12,10 @@ def main():
         first = True
 
         for row in reader:
+            notes = row["description"]
+            notes = notes.replace("\u00a0", " ")
+            notes = re.sub(r"[ ]+", " ", notes)
+            notes = notes.strip()
             print(("    " if first else "    ,") + "(" + ",".join([
                 mysql_quote("Andrea & Charles Bronfman Philanthropies"),  # donor
                 mysql_quote(row["organization"]),  # donee
@@ -20,7 +25,7 @@ def main():
                 mysql_quote("donation log"),  # donation_date_basis
                 mysql_quote(""),  # cause_area
                 mysql_quote("http://www.acbp.net/grant-directory.php"),  # url
-                mysql_quote(row["description"]),  # notes
+                mysql_quote(notes),  # notes
             ]) + ")")
             first = False
         print(";")
